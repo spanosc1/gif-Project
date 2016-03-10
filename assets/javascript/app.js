@@ -17,7 +17,7 @@ $(document).ready(function() {
 	$(document).on('click', 'button[type="char"]', function() {
 		$("#gifspace").empty();
 		var dataName = $(this).data('name');
-		var queryURL = "http://api.giphy.com/v1/gifs/search?q="
+		var queryURL = "https://api.giphy.com/v1/gifs/search?q="
 		 + dataName + "&api_key=dc6zaTOxFJmzC&limit=10";
 		 $.ajax({
 		 		url: queryURL,
