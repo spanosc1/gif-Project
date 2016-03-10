@@ -14,7 +14,7 @@ $(document).ready(function() {
 		buttons[i].html(theName);
 		$("#buttons").append(buttons[i]);
 	}
-	$('button[type="char"]').on('click', function() {
+	$(document).on('click', 'button[type="char"]', function() {
 		$("#gifspace").empty();
 		var dataName = $(this).data('name');
 		var queryURL = "http://api.giphy.com/v1/gifs/search?q="
@@ -30,7 +30,10 @@ $(document).ready(function() {
 		 			var nameDiv = $('<div class="item">');
 		 			var p = $('<p>Rating: ' + results[i].rating + '</p>');
 		 			var nameImage = $('<img class="nameImage">');
-		 			nameImage.attr('src', results[i].images.fixed_height.url);
+		 			nameImage.attr('src', results[i].images.fixed_height_still.url);
+		 			nameImage.attr('src-still', results[i].images.fixed_height_still.url);
+		 			nameImage.attr('src-animate', results[i].images.fixed_height.url);
+		 			nameImage.attr('state', 'still');
 		 			nameDiv.append(p);
 		 			nameDiv.append(nameImage);
 		 			$("#gifspace").prepend(nameDiv);
@@ -39,15 +42,27 @@ $(document).ready(function() {
 	});
 	$('#submit').on('click', function() {
 		var newName = $("#newName").val();
-		$("#buttons").empty();
+		newName.trim();
 		buttons.push($('<button class="btn btn-primary" type="char" data-name="' + newName + '">'));
 		for(var i = 0; i < buttons.length; i++)
 		{
 			var theName = $(buttons[i]).data("name");
-			console.log(buttons[i]);
 			buttons[i].html(theName);
 			$("#buttons").append(buttons[i]);
 		}
 		return false;
+	});
+	$(document).on('click', '.nameImage', function() {
+		var state = $(this).attr('state');
+		if(state == 'still')
+		{
+			$(this).attr('src', $(this).attr('src-animate'));
+			$(this).attr('state', 'animate');
+		}
+		else
+		{
+			$(this).attr('src', $(this).attr('src-still'));
+			$(this).attr('state', 'still');
+		}
 	});
 });
